@@ -19,7 +19,7 @@ layout = [
     [sg.Button('Send'), sg.Button('Reset'), sg.Button('Exit')]
 ]
 
-window = sg.Window('Headset GUI', layout)
+window = sg.Window('Headset GUI', layout, auto_size_text=True)
 
 rgb = ['R', 'G', 'B']
 exit = ['Exit', sg.WIN_CLOSED]
@@ -47,6 +47,7 @@ while True:
 
     # send command
     if event == 'Send':
-        connector.send_command(int(values['FREQUENCY']), int(values['R']), int(values['G']), int(values['B']), int(values['PHASE']))
+        message = connector.send_command(int(values['FREQUENCY']), int(values['R']), int(values['G']), int(values['B']), int(values['PHASE']))
+        sg.Popup(message)
 
 window.close()

@@ -11,7 +11,7 @@ class Connector:
         port = port.split(' ')[0]
         
         if port == None or port == self.port:
-            print('same port')
+            print('Same port selected.')
         else:
             self.serial = serial.Serial(port, self.baudrate)
             self.port = port
@@ -28,7 +28,7 @@ class Connector:
 
     def send_command(self, freq, red, green, blue, phase) -> str:
         if self.serial is None:
-            return "No port has been selected!"
+            return "Error: no port has been selected!"
         
         command = "{},{},{},{},{}".format(freq, red, green, blue, phase)
         self.serial.write(
