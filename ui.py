@@ -32,6 +32,15 @@ while True:
     if event == 'PORT':
         connector.set_port(values['PORT'])
 
+    # reset values
+    if event == 'Reset':
+        window['PORT'].update(values=connector.get_ports())
+        window['FREQUENCY'].update('0')
+        window['R'].update('0')
+        window['G'].update('0')
+        window['B'].update('0')
+        window['PHASE'].update('0')
+
     # exits window
     if event in exit:
         break
