@@ -6,18 +6,38 @@ sg.theme('DarkAmber')
 connector = Connector()
 
 layout = [
-    [sg.Text('Port:'), sg.Combo(connector.get_ports(), enable_events=True, readonly=True, k='-PORT-')],
-    [sg.Button('Send'), sg.Button('Exit')]
+    [sg.Text('Select Port:'), 
+        sg.Combo(connector.get_ports(), enable_events=True, readonly=True, key='PORT')],
+    [sg.Text('Set Frequency (HZ): '), 
+        sg.Input(default_text='0', key='FREQUENCY', s=3, enable_events=True)],
+    [sg.Text('Set Color (RGB):'), 
+        sg.Input(default_text="0", key='R', s=3, enable_events=True), 
+        sg.Input(default_text="0", key='G', s=3, enable_events=True), 
+        sg.Input(default_text="0", key='B', s=3, enable_events=True)],
+    [sg.Text('Set Phase (Deg):'), 
+        sg.Input(default_text="0", key='PHASE', s=3, enable_events=True)],
+    [sg.Button('Send'), sg.Button('Reset'), sg.Button('Exit')]
 ]
 
 window = sg.Window('Headset GUI', layout)
 
+rgb = ['R', 'G', 'B']
+exit = ['Exit', sg.WIN_CLOSED]
+
 while True:
     event, values = window.read()
     print(event, values)
-    if event == sg.WIN_CLOSED or event == 'Exit':
+
+    # set serial/port
+    if event == 'PORT':
+        connector.set_port(values['PORT'])
+
+    # exits window
+    if event in exit:
         break
-    if event == 'Show':
-        window['-OUTPUT-'].update(values['-IN-'])
+
+    # send command
+    if event == 'Send':
+        connector.send_command(int(values['FREQUENCY']), int(values['R']), int(values['G']), int(values['B']), int(values['PHASE']))
 
 window.close()
