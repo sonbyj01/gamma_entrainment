@@ -3,7 +3,7 @@ import serial.tools.list_ports
 
 class Connector: 
     def __init__(self): 
-        self.serial = None
+        self.get_ports()
         self.port = None
         self.baudrate = 9600
 
@@ -23,7 +23,8 @@ class Connector:
 
         for port, desc, _ in sorted(ports):
             self.ports.append("{} {}".format(port, desc[0:16]))
-
+            
+        print(self.ports)
         return self.ports 
 
     def send_command(self, freq, red, green, blue, phase) -> str:
